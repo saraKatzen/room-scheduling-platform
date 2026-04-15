@@ -1,7 +1,8 @@
 const express = require('express'); // חובה להוסיף
 const mongoose = require('mongoose');
 const app = express(); // חובה להוסיף
-
+const cors = require('cors');
+app.use(cors()); // מאפשר לריאקט לדבר עם השרת
 // החיבור למסד הנתונים
 const dbURI = 'mongodb+srv://tehila7151_db_user:bF8PM7JfYXqNlhHg@cluster0.8t6moga.mongodb.net/rooms_db?retryWrites=true&w=majority&appName=Cluster0';
 
