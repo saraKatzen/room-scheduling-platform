@@ -1,4 +1,33 @@
 {
+<<<<<<< HEAD
+  "name": "room-scheduling-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@eslint/js": "^9.39.4",
+    "@rolldown/plugin-babel": "^0.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "vite": "^8.0.4"
+=======
   "name": "room-assignment-server",
   "version": "1.0.0",
   "description": "",
@@ -12,5 +41,6 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
+>>>>>>> 5e22934a8a08c4129755dff591085bd406755c77
   }
 }
