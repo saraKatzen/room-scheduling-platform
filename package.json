@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "room-scheduling-client",
   "private": true,
   "version": "0.0.0",
@@ -27,7 +26,6 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "vite": "^8.0.4"
-=======
   "name": "room-assignment-server",
   "version": "1.0.0",
   "description": "",
@@ -40,7 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
->>>>>>> 5e22934a8a08c4129755dff591085bd406755c77
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
   }
 }
