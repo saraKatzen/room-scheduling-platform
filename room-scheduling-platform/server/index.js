@@ -4,11 +4,12 @@ const cors = require('cors'); // חשוב מאוד כדי שהדפדפן לא י
 const app = express();
 const PORT = process.env.PORT || 3000;
 const Room = require('./models/Room');
+const assignmentRoutes = require('./routes/assignmentRoutes');
 
 // Middleware
 app.use(cors()); // מאפשר ל-React לגשת לשרת
 app.use(express.json());
-
+app.use('/api/assignments', assignmentRoutes);
 // התחברות ל-MongoDB
 const uri = "mongodb+srv://tehila7151_db_user:bF8PM7JfYXqNlhHg@cluster0.8t6moga.mongodb.net/room-scheduling-platform?retryWrites=true&w=majority";
 
@@ -82,3 +83,6 @@ app.get('/api/rooms/:id', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// שימוש בנתיבים
+app.use('/api/assignments', assignmentRoutes);
