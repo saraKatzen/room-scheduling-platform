@@ -1,0 +1,33 @@
+/* ייבוא פונט רוביק מגוגל פונטס */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+
+:root {
+  /* פלטת צבעים גוגל */
+  --google-blue: #1a73e8;
+  --google-red: #ea4335;
+  --google-gray-dark: #202124;
+  --google-gray-medium: #5f6368;
+  --google-gray-light: #f1f3f4;
+  --google-border: #dadce0;
+  --white: #ffffff;
+  
+  /* הגדרות כתב */
+  --font-main: 'Rubik', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--white);
+  color: var(--google-gray-dark);
+  direction: rtl;
+  /* מניעת גלישה כללית בדף אם רוצים מסך סטטי */
+  overflow: hidden; 
+  height: 100vh;
+  width: 100vw;
+}

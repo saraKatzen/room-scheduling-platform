@@ -1,0 +1,39 @@
+.launcher-grid-fixed {
+  display: grid;
+  /* יצירת 3 עמודות שוות - זה מה שגורם להם להיות בשורה */
+  grid-template-columns: repeat(3, 1fr); 
+  /* מרווח בין הכפתורים */
+  gap: 20px; 
+  width: 100%;
+  max-width: 1000px;
+  /* מבטיח שהגריד לא יחרוג מגובה המסך */
+  align-content: start; 
+}
+
+.launcher-card-btn {
+  background: var(--white);
+  border: 1px solid var(--google-border);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* יישור טקסט לימין (בגלל RTL) */
+  text-align: right;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* גובה מינימלי כדי לשמור על אחידות */
+  min-height: 140px; 
+}
+
+/* התאמה למובייל - אם המסך קטן מדי, יעבור ל-2 בשורה או 1 */
+@media (max-width: 768px) {
+  .launcher-grid-fixed {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .launcher-grid-fixed {
+    grid-template-columns: 1fr;
+  }
+}
