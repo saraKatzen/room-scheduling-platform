@@ -66,7 +66,26 @@ app.put('/api/rooms/:id', async (req, res) => {
         res.status(400).json({ message: "שגיאה בעדכון החדר", error: err.message });
     }
 });
+// משימת שרת: CRUD - מחיקת חדר
+app.delete('/api/rooms/:id', async (req, res) => {
+    try {
+        await Room.findByIdAndDelete(req.params.id);
+        res.json({ message: "החדר נמחק בהצלחה" });
+    } catch (err) {
+        res.status(500).json({ message: "שגיאה במחיקה" });
+    }
+});
 
+// משימת שרת: CRUD - קבלת פרטי חדר בודד
+app.get('/api/rooms/:id', async (req, res) => {
+    try {
+        const room = await Room.findById(req.params.id);
+        if (!room) return res.status(404).json({ message: "החדר לא נמצא" });
+        res.json(room);
+    } catch (err) {
+        res.status(500).json({ message: "שגיאה בשליפה" });
+    }
+});
 // הפעלת השרת
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
