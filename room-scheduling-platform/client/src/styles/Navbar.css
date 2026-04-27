@@ -1,0 +1,104 @@
+/* =========================================
+   הגדרות גלובליות לדף השלם (סגנון גוגל)
+   ========================================= */
+
+body {
+  margin: 0;
+  padding: 0;
+  /* גופן ברירת המחדל של גוגל (Roboto) או גופנים נקיים אחרים */
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa; /* רקע אפרפר בהיר - אופייני לגוגל */
+  color: #202124; /* צבע טקסט אפור-כהה לקריאות נוחה */
+  direction: rtl; /* הגדרת כיווניות לעברית */
+}
+
+/* מעטפת התוכן של הדף (מומלץ להוסיף את המחלקה הזו ב-App.js מתחת ל-Navbar) */
+.page-content {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #dadce0;
+  min-height: 80vh;
+}
+
+/* =========================================
+   עיצוב סרגל הניווט (Navbar)
+   ========================================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px; /* גובה סטנדרטי למערכות גוגל */
+  background-color: #ffffff;
+  /* צל עדין שנותן תחושת ריחוף (Elevation) */
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-logo h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  color: #3c4043;
+}
+
+.navbar-links {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px; /* מרווח בין הקישורים */
+}
+
+.navbar-links li {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 24px; /* כפתורים עגולים בסגנון העדכני של גוגל */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* מצב מעבר עכבר (Hover) */
+.navbar-links a:hover {
+  background-color: #f1f3f4; /* אפור בהיר */
+}
+
+/* מצב פעיל (הדף הנוכחי) */
+.navbar-links li.active a {
+  background-color: #e8f0fe; /* תכלת עדין */
+  color: #1a73e8; /* הכחול הקלאסי של גוגל */
+}
+
+/* אזור המשתמש בצד שמאל */
+.navbar-user {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user span {
+  font-size: 14px;
+  color: #3c4043;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-user span:hover {
+  background-color: #f8f9fa;
+}

@@ -40,6 +40,25 @@ app.post('/api/rooms', async (req, res) => {
     }
 });
 
+// עדכון פרטי חדר קיים לפי מזהה (ID)
+app.put('/api/rooms/:id', async (req, res) => {
+    try {
+        const { id } = req.params; // מקבל את ה-ID מהכתובת
+        const updatedData = req.body; // מקבל את הנתונים החדשים מה-body של הבקשה
+
+        // מחפש ומעדכן. { new: true } גורם לו להחזיר את האובייקט המעודכן
+        const updatedRoom = await Room.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedRoom) {
+            return res.status(404).json({ message: "החדר לא נמצא" });
+        }
+
+        res.json(updatedRoom); // מחזיר את החדר המעודכן לבדיקה
+    } catch (err) {
+        res.status(400).json({ message: "שגיאה בעדכון החדר", error: err.message });
+    }
+});
+
 // הפעלת השרת
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
