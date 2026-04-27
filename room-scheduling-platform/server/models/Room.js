@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
   // --- פרטי חדר בסיסיים ---
-  roomName: { 
-    type: String, 
+  roomNumber: { 
+    type: Number, 
     required: true, 
-    trim: true 
+    unique: true // מבטיח שלא יהיו כפילויות במספרי חדרים 
   },
   wing: { 
     type: String, 
     required: true,
-    enum: ['ימין', 'שמאל', 'אמצע', 'חדש'] // הגבלה לאגפים שביקשת
+    enum: ['ימין', 'שמאל', 'אמצע', 'חדש'] // הגבלה לאגפים המוגדרים בסמינר
   },
   floor: { 
     type: Number, 
@@ -18,23 +18,25 @@ const roomSchema = new mongoose.Schema({
   },
   capacity: { 
     type: Number, 
-    required: true 
+    required: true // גודל/קיבולת החדר 
   },
   hasProjector: { 
     type: Boolean, 
-    default: false 
+    default: false // האם קיים מקרן בחדר 
   },
 
-  // --- מערך שיבוצים קבועים ---
-  // מייצג את המערכת השבועית הקבועה של החדר 
+  // --- מערכי ניהול (מומלץ לפי דף המשימות)  ---
+
+  // מערך שיבוצים קבועים - המערכת השבועית 
   regularSchedule: [{
     dayOfWeek: { type: Number, min: 1, max: 6, required: true }, // 1=ראשון, 6=שישי
     startTime: { type: String, required: true }, // פורמט "HH:mm"
     endTime: { type: String, required: true },
-    subject: String  }],
+    groupName: String, // שם המחזור המשובץ
+    subject: String
+  }],
 
-  // --- מערך שיבוצים זמניים/חד פעמיים ---
-  // עבור בקשות לשיבוץ חד פעמי 
+  // מערך שיבוצים זמניים - בקשות חד פעמיות [cite: 8, 9]
   temporaryBookings: [{
     date: { type: Date, required: true },
     startTime: { type: String, required: true },
@@ -42,12 +44,12 @@ const roomSchema = new mongoose.Schema({
     purpose: String
   }],
 
-  // --- מערך ביטולים זמניים ---
-  // מיועד למקרים בהם החדר מתפנה (למשל הכנה למבחן) 
+  // מערך ביטולים זמניים - שחרור חדר לזמן מוגבל (חופש/מבחן) [cite: 11]
   temporaryCancellations: [{
     date: { type: Date, required: true },
-    reason: { type: String, default: "חופש/הכנה למבחן" }
+    reason: { type: String, default: "הכנה למבחן" }
   }]
-}, { timestamps: true }); // מוסיף אוטומטית זמן יצירה ועדכון
+
+}, { timestamps: true }); // מוסיף זמן יצירה ועדכון אוטומטי
 
 module.exports = mongoose.model('Room', roomSchema);
