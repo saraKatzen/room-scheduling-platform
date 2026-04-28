@@ -1,0 +1,12 @@
+const mongoose = require('mongoose');
+
+const assignmentSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  startTime: { type: String, required: true },
+  endTime: { type: String, required: true },
+  constraints: [String], 
+  // שינוי שם השדה מ-room ל-roomId לסנכרון עם שאר המודלים
+  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room' } 
+}, { timestamps: true });
+
+module.exports = mongoose.model('Assignment', assignmentSchema);

@@ -3,11 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors'); // חשוב מאוד כדי שהדפדפן לא יחסום את הבקשות
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const Room = require('./models/Room');
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const cancellationRoutes = require('./routes/cancellationRoutes');
 // Middleware
 app.use(cors()); // מאפשר ל-React לגשת לשרת
 app.use(express.json());
-
+app.use('/api/assignments', assignmentRoutes);
+app.use('/api/cancellations', cancellationRoutes);
 // התחברות ל-MongoDB
 const uri = "mongodb+srv://tehila7151_db_user:bF8PM7JfYXqNlhHg@cluster0.8t6moga.mongodb.net/room-scheduling-platform?retryWrites=true&w=majority";
 
@@ -15,15 +18,6 @@ mongoose.connect(uri)
   .then(() => console.log("Connected to MongoDB!"))
   .catch(err => console.error("Could not connect to MongoDB", err));
 
-// הגדרת המודל
-const roomSchema = new mongoose.Schema({
-  wing: String,
-  floor: Number,
-  roomNumber: Number,
-  hasProjector: Boolean
-});
-
-const Room = mongoose.model('Room', roomSchema);
 
 // --- נתיבים (Routes) ---
 
@@ -48,7 +42,48 @@ app.post('/api/rooms', async (req, res) => {
     }
 });
 
+// עדכון פרטי חדר קיים לפי מזהה (ID)
+app.put('/api/rooms/:id', async (req, res) => {
+    try {
+        const { id } = req.params; // מקבל את ה-ID מהכתובת
+        const updatedData = req.body; // מקבל את הנתונים החדשים מה-body של הבקשה
+
+        // מחפש ומעדכן. { new: true } גורם לו להחזיר את האובייקט המעודכן
+        const updatedRoom = await Room.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedRoom) {
+            return res.status(404).json({ message: "החדר לא נמצא" });
+        }
+
+        res.json(updatedRoom); // מחזיר את החדר המעודכן לבדיקה
+    } catch (err) {
+        res.status(400).json({ message: "שגיאה בעדכון החדר", error: err.message });
+    }
+});
+// משימת שרת: CRUD - מחיקת חדר
+app.delete('/api/rooms/:id', async (req, res) => {
+    try {
+        await Room.findByIdAndDelete(req.params.id);
+        res.json({ message: "החדר נמחק בהצלחה" });
+    } catch (err) {
+        res.status(500).json({ message: "שגיאה במחיקה" });
+    }
+});
+
+// משימת שרת: CRUD - קבלת פרטי חדר בודד
+app.get('/api/rooms/:id', async (req, res) => {
+    try {
+        const room = await Room.findById(req.params.id);
+        if (!room) return res.status(404).json({ message: "החדר לא נמצא" });
+        res.json(room);
+    } catch (err) {
+        res.status(500).json({ message: "שגיאה בשליפה" });
+    }
+});
 // הפעלת השרת
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// שימוש בנתיבים
+app.use('/api/assignments', assignmentRoutes);
