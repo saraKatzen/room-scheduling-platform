@@ -1,6 +1,5 @@
 // ייבוא המודל שעדכנת בשלב הקודם
-const OneTimeCancellation = require('../models/OneTimeCancellation');
-
+import OneTimeCancellation from "../models/OneTimeCancellation.js";
 // פונקציה 1: הוספת ביטול חד פעמי
 exports.addCancellation = async (req, res) => {
     try {
