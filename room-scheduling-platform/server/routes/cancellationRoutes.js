@@ -11,4 +11,4 @@ router.post('/', cancellationController.addCancellation);
 // הכתובת המלאה תהיה: DELETE /api/cancellations/:id
 router.delete('/:id', cancellationController.deleteCancellation);
 
-module.exports = router;
+export default router;
