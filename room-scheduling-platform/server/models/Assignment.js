@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-const assignmentSchema = new mongoose.Schema({
+
+export const assignmentSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },

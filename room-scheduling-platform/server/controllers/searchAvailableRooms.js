@@ -1,5 +1,4 @@
 import Room from "../models/Room.js";
-
 const searchAvailableRooms = async (req, res) => {
   try {
     const { 

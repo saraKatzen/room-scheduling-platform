@@ -1,4 +1,5 @@
-const roomSchema = new mongoose.Schema({
+import mongoose from 'mongoose';
+export const roomSchema = new mongoose.Schema({
   roomNumber: { type: Number, required: true, unique: true },
   wing: { type: String, required: true, enum: ['ימין', 'שמאל', 'אמצע', 'חדש'] },
   floor: { type: Number, required: true },

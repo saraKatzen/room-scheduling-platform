@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const oneTimeCancellationSchema = new mongoose.Schema({
+export const oneTimeCancellationSchema = new mongoose.Schema({
   // קישור לשיבוץ הספציפי שאותו מבטלים
   permanentAssignmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'PermanentAssignment', required: true },
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
