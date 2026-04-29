@@ -8,7 +8,7 @@ export const assignmentSchema = new mongoose.Schema({
   // שינוי שם השדה מ-room ל-roomId לסנכרון עם שאר המודלים
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room' } 
 }, { timestamps: true });
-
 const Assignment = mongoose.model('Assignment', assignmentSchema);
-
 export default Assignment;
+
+
