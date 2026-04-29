@@ -3,8 +3,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import Room from './models/Room.js';
 import assignmentRoutes from './routes/assignmentRoutes.js';
-import cancellationRoutes from './routes/cancellationRoutes.js';
-import roomController from './controllers/roomController.js';
 import roomRoutes from './routes/roomRoutes.js';
 import oneTimeCancellationRoutes from './routes/oneTimeCancellationRoutes.js';
 
@@ -15,9 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); // מאפשר ל-React לגשת לשרת
 app.use(express.json());
 app.use('/api/assignments', assignmentRoutes);
-app.use('/api/cancellations', cancellationRoutes);
-// app.use('/api/room', roomRoutes);
-app.use('/api/rooms', roomRoutes); // שימוש בנתיבים של החדרים
+app.use('/api/rooms', roomRoutes);// שימוש בנתיבים של החדרים
 app.use('/api/oneTimeCancellations', oneTimeCancellationRoutes);
 
 // התחברות ל-MongoDB
