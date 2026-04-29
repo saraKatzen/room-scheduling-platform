@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 const oneTimeCancellationSchema = new mongoose.Schema({
   // קישור לשיבוץ הספציפי שאותו מבטלים
   permanentAssignmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'PermanentAssignment', required: true },

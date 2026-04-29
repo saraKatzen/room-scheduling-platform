@@ -1,5 +1,4 @@
-const Assignment = require('../models/Assignment');
-
+import Assignment from "../models/Assignment.js";
 // 1. יצירת שיבוץ חדש (Create)
 exports.createAssignment = async (req, res) => {
   try {
