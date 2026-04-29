@@ -1,38 +1,131 @@
-.launcher-grid-fixed {
-  display: grid;
-  /* יצירת 3 עמודות שוות - זה מה שגורם להם להיות בשורה */
-  grid-template-columns: repeat(3, 1fr); 
-  /* מרווח בין הכפתורים */
-  gap: 20px; 
-  width: 100%;
-  max-width: 1000px;
-  /* מבטיח שהגריד לא יחרוג מגובה המסך */
-  align-content: start; 
-}
-
-.launcher-card-btn {
-  background: var(--white);
-  border: 1px solid var(--google-border);
-  border-radius: 8px;
-  padding: 24px;
+.launcher-container {
+  min-height: 100vh;
+  padding: 48px 24px;
+  background: #f8fafc;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* יישור טקסט לימין (בגלל RTL) */
-  text-align: right;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  /* גובה מינימלי כדי לשמור על אחידות */
-  min-height: 140px; 
+  align-items: center;
+  font-family: var(--font-main);
 }
 
-/* התאמה למובייל - אם המסך קטן מדי, יעבור ל-2 בשורה או 1 */
-@media (max-width: 768px) {
+/* ===== Header ===== */
+.launcher-header {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.launcher-header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.launcher-header p {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* ===== Grid ===== */
+.launcher-grid-fixed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: 100%;
+  max-width: 1050px;
+}
+
+/* ===== Card ===== */
+.launcher-card-btn {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  text-align: right;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* hover עדין */
+.launcher-card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border-color: #d1d5db;
+}
+
+/* ===== צבעי accent עדינים לכל כרטיס ===== */
+.launcher-card-btn:nth-child(1) .card-icon {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.launcher-card-btn:nth-child(2) .card-icon {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.launcher-card-btn:nth-child(3) .card-icon {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.launcher-card-btn:nth-child(4) .card-icon {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.launcher-card-btn:nth-child(5) .card-icon {
+  background: #ffe4e6;
+  color: #e11d48;
+}
+
+.launcher-card-btn:nth-child(6) .card-icon {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+/* ===== Icon ===== */
+.card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-icon .material-icons {
+  font-size: 22px;
+}
+
+/* ===== Text ===== */
+.card-content h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.card-content p {
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
   .launcher-grid-fixed {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .launcher-grid-fixed {
     grid-template-columns: 1fr;
   }
