@@ -1,4 +1,5 @@
-const permanentAssignmentSchema = new mongoose.Schema({
+ import mongoose from 'mongoose';
+ export const permanentAssignmentSchema = new mongoose.Schema({
   assignmentName: { type: String, required: true },
   // קישור לחדר לפי ה-ID שלו במסד הנתונים
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true }, 
