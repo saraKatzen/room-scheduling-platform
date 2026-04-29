@@ -1,6 +1,7 @@
-const Room = require('../models/Room');
+import Room from '../models/Room.js';
+import OneTimeCancellation from '../models/OneTimeCancellation.js';
 // 1. נתיב לקבלת כל החדרים (בשביל ה-React)
-exports.getRoom = async (req, res) => {
+export const getRoom = async (req, res) => {
     try {
         const rooms = await Room.find();
         res.json(rooms);
@@ -10,7 +11,7 @@ exports.getRoom = async (req, res) => {
 };
 
 // 2 נתיב להוספת חדר חדש
-exports.postRoom = async (req, res) => {
+export const postRoom = async (req, res) => {
     try {
         const newRoom = new Room(req.body); 
         await newRoom.save(); 
@@ -22,7 +23,7 @@ exports.postRoom = async (req, res) => {
 
 // עדכון פרטי חדר קיים לפי מזהה (ID)
 
-exports.putRoom = async (req, res) => {
+export const putRoom = async (req, res) => {
     try {
         const { id } = req.params; // מקבל את ה-ID מהכתובת
         const updatedData = req.body; // מקבל את הנתונים החדשים מה-body של הבקשה
@@ -40,7 +41,7 @@ exports.putRoom = async (req, res) => {
     }
 };
 // משימת שרת: CRUD - מחיקת חדר
-exports.deleteRoom = async (req, res) => {
+export const deleteRoom = async (req, res) => {
     try {
         await Room.findByIdAndDelete(req.params.id);
         res.json({ message: "החדר נמחק בהצלחה" });
@@ -50,12 +51,45 @@ exports.deleteRoom = async (req, res) => {
 };
 
 // משימת שרת: CRUD - קבלת פרטי חדר בודד
-    exports.getRoomById = async (req, res) => {
+    export const getRoomById = async (req, res) => {
     try {
         const room = await Room.findById(req.params.id);
         if (!room) return res.status(404).json({ message: "החדר לא נמצא" });
         res.json(room);
     } catch (err) {
         res.status(500).json({ message: "שגיאה בשליפה" });
+    }
+};
+
+// פונקציה 1: הוספת ביטול חד פעמי לחדר ספציפי
+export const addCancellation = async (req, res) => {
+    try {
+        // וודאנו שהחדר קיים
+        const roomExists = await Room.findById(req.body.roomId);
+        if (!roomExists) {
+            return res.status(404).json({ message: "שגיאה: החדר שצוין לא נמצא במערכת" });
+        }
+
+        const newCancellation = new OneTimeCancellation(req.body);
+        const savedCancellation = await newCancellation.save();
+        res.status(201).json(savedCancellation);
+    } catch (error) {
+        res.status(400).json({ message: "שגיאה ביצירת הביטול", error: error.message });
+    }
+};
+
+// פונקציה 2: מחיקת ביטול חד פעמי
+export const deleteCancellation = async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const deletedCancellation = await OneTimeCancellation.findByIdAndDelete(id);
+        
+        if (!deletedCancellation) {
+            return res.status(404).json({ message: "הביטול לא נמצא במערכת" });
+        }
+        
+        res.status(200).json({ message: "הביטול נמחק בהצלחה" });
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה בתהליך המחיקה", error: error.message });
     }
 };
