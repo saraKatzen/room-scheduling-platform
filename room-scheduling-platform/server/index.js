@@ -86,4 +86,3 @@ app.listen(PORT, () => {
 });
 
 // שימוש בנתיבים
-app.use('/api/assignments', assignmentRoutes);
