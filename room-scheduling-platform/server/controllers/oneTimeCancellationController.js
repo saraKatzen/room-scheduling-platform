@@ -1,6 +1,9 @@
 import OneTimeCancellation from '../models/oneTimeCancellationSchema.js';
-
-const getAllCancellations = async (req, res) => {
+// CRUD operations for OneTimeCancellation
+// Create, Read (all and by ID), Update, Delete
+// כל הפונקציות האלו הן אסינכרוניות כי הן מתקשרות עם מסד הנתונים
+// פונקציה לקבלת כל הביטולים
+export const getAllCancellations = async (req, res) => {
   try {
     const cancellations = await OneTimeCancellation
       .find()
@@ -12,8 +15,8 @@ const getAllCancellations = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-const createCancellation = async (req, res) => {
+// פונקציה ליצירת ביטול חדש
+export const createCancellation = async (req, res) => {
   try {
     const cancellation = new OneTimeCancellation(req.body);
     await cancellation.save();
@@ -22,8 +25,8 @@ const createCancellation = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
-
-const getCancellationById = async (req, res) => {
+// פונקציה לקבלת ביטול לפי מזהה (ID)
+export const getCancellationById = async (req, res) => {
   try {
     const cancellation = await OneTimeCancellation
       .findById(req.params.id)
@@ -39,8 +42,8 @@ const getCancellationById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-const updateCancellation = async (req, res) => {
+// פונקציה לעדכון ביטול קיים לפי מזהה (ID)
+export const updateCancellation = async (req, res) => {
   try {
     const updated = await OneTimeCancellation.findByIdAndUpdate(
       req.params.id,
@@ -57,8 +60,8 @@ const updateCancellation = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
-
-const deleteCancellation = async (req, res) => {
+// פונקציה למחיקת ביטול לפי מזהה (ID)
+export const deleteCancellation = async (req, res) => {
   try {
     const deleted = await OneTimeCancellation.findByIdAndDelete(req.params.id);
 

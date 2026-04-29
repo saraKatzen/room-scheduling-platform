@@ -13,6 +13,8 @@ app.use(cors()); // מאפשר ל-React לגשת לשרת
 app.use(express.json());
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/cancellations', cancellationRoutes);
+app.use('/api/oneTimeCancellations', oneTimeCancellationRoutes);
+
 // התחברות ל-MongoDB
 const uri = "mongodb+srv://tehila7151_db_user:bF8PM7JfYXqNlhHg@cluster0.8t6moga.mongodb.net/room-scheduling-platform?retryWrites=true&w=majority";
 
