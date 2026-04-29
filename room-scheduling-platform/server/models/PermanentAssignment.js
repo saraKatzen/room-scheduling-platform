@@ -13,3 +13,6 @@
   endTime: { type: String, required: true },   // פורמט "10:00"
   isActive: { type: Boolean, default: true }
 }, { timestamps: true });
+
+const PermanentAssignment = mongoose.model('PermanentAssignment', permanentAssignmentSchema);
+export default PermanentAssignment;

@@ -7,3 +7,6 @@ export  const tempAssignmentSchema = new mongoose.Schema({
   endTime: { type: String, required: true },
   status: { type: String, enum: ['pending', 'draft', 'review'], default: 'pending' }
 }, { timestamps: true });
+
+const TempAssignment = mongoose.model('TempAssignment', tempAssignmentSchema);
+export default TempAssignment;

@@ -9,4 +9,5 @@ export const oneTimeCancellationSchema = new mongoose.Schema({
   notes: { type: String }
 }, { timestamps: true });
 
-module.exports = mongoose.model('OneTimeCancellation', oneTimeCancellationSchema);
+const OneTimeCancellation = mongoose.model('OneTimeCancellation', oneTimeCancellationSchema);
+export default OneTimeCancellation;
