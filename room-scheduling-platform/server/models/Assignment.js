@@ -11,3 +11,4 @@ export const assignmentSchema = new mongoose.Schema({
 const Assignment = mongoose.model('Assignment', assignmentSchema);
 export default Assignment;
 
+

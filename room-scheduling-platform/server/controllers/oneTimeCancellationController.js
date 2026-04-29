@@ -1,6 +1,6 @@
-import OneTimeCancellation from '../models/oneTimeCancellationSchema.js';
+import OneTimeCancellation from '../models/OneTimeCancellation.js';
 // CRUD operations for OneTimeCancellation
-// Create, Read (all and by ID), Update, Delete
+// Create, Read (all and by ID), Update, Delete.
 // כל הפונקציות האלו הן אסינכרוניות כי הן מתקשרות עם מסד הנתונים
 // פונקציה לקבלת כל הביטולים
 export const getAllCancellations = async (req, res) => {

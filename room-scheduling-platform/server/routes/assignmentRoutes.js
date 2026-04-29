@@ -1,5 +1,5 @@
 import express from 'express';
-import assignmentController from '../controllers/assignmentController.js';
+import * as assignmentController from '../controllers/assignmentController.js';
 const router = express.Router();
 
 // נתיב ליצירה
@@ -9,4 +9,4 @@ router.post('/', assignmentController.createAssignment);
 router.get('/', assignmentController.getAllAssignments);
 router.put('/:id', assignmentController.updateAssignment); 
 router.delete('/:id', assignmentController.deleteAssignment);
-module.exports = router;
+export default router;

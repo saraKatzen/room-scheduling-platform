@@ -1,6 +1,6 @@
 import Assignment from "../models/Assignment.js";
 // 1. יצירת שיבוץ חדש (Create)
-exports.createAssignment = async (req, res) => {
+export const createAssignment = async (req, res) => {
   try {
     // שיניתי מ-Scheme ל-Assignment
     const newAssignment = new Assignment(req.body);
@@ -12,7 +12,7 @@ exports.createAssignment = async (req, res) => {
 };
 
 // 2. קבלת כל השיבוצים (Read)
-exports.getAllAssignments = async (req, res) => {
+export const getAllAssignments = async (req, res) => {
   try {
     // שיניתי מ-Scheme ל-Assignment
     const assignments = await Assignment.find();
@@ -23,7 +23,7 @@ exports.getAllAssignments = async (req, res) => {
 };
 
 // 3. עדכון שיבוץ קיים (Update)
-exports.updateAssignment = async (req, res) => {
+export const updateAssignment = async (req, res) => {
   try {
     // שיניתי מ-Scheme ל-Assignment
     const updatedAssignment = await Assignment.findByIdAndUpdate(
@@ -43,7 +43,7 @@ exports.updateAssignment = async (req, res) => {
 };
 
 // 4. מחיקת שיבוץ (Delete)
-exports.deleteAssignment = async (req, res) => {
+export const deleteAssignment = async (req, res) => {
   try {
     // שיניתי מ-Scheme ל-Assignment
     const deletedAssignment = await Assignment.findByIdAndDelete(req.params.id);

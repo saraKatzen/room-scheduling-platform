@@ -4,6 +4,7 @@ import cors from 'cors';
 import Room from './models/Room.js';
 import assignmentRoutes from './routes/assignmentRoutes.js';
 import cancellationRoutes from './routes/cancellationRoutes.js';
+import oneTimeCancellationRoutes from './routes/oneTimeCancellationRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
