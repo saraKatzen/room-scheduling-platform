@@ -1,11 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors'); // חשוב מאוד כדי שהדפדפן לא יחסום את הבקשות
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import Room from './models/Room.js';
+import assignmentRoutes from './routes/assignmentRoutes.js';
+import cancellationRoutes from './routes/cancellationRoutes.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-const Room = require('./models/Room');
-const assignmentRoutes = require('./routes/assignmentRoutes');
-const cancellationRoutes = require('./routes/cancellationRoutes');
+
 // Middleware
 app.use(cors()); // מאפשר ל-React לגשת לשרת
 app.use(express.json());
