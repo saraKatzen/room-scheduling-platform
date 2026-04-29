@@ -1,5 +1,5 @@
 import express from 'express';
-import assignmentController from '../controllers/assignmentController.js';
+import * as assignmentController from '../controllers/assignmentController.js';
 const router = express.Router();
 
 // נתיב ליצירה

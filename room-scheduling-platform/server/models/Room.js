@@ -6,3 +6,4 @@ export const roomSchema = new mongoose.Schema({
   capacity: { type: Number, required: true },
   hasProjector: { type: Boolean, default: false }
 }, { timestamps: true });
+module.exports = mongoose.model('Room', roomSchema);

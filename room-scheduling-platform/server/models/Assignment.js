@@ -9,4 +9,6 @@ export const assignmentSchema = new mongoose.Schema({
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room' } 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Assignment', assignmentSchema);
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+export default Assignment;
