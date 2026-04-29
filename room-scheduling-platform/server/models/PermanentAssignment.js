@@ -1,4 +1,5 @@
-const permanentAssignmentSchema = new mongoose.Schema({
+ import mongoose from 'mongoose';
+ export const permanentAssignmentSchema = new mongoose.Schema({
   assignmentName: { type: String, required: true },
   // קישור לחדר לפי ה-ID שלו במסד הנתונים
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true }, 
@@ -12,3 +13,6 @@ const permanentAssignmentSchema = new mongoose.Schema({
   endTime: { type: String, required: true },   // פורמט "10:00"
   isActive: { type: Boolean, default: true }
 }, { timestamps: true });
+
+const PermanentAssignment = mongoose.model('PermanentAssignment', permanentAssignmentSchema);
+export default PermanentAssignment;

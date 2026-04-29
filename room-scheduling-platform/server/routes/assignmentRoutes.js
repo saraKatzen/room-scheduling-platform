@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
+import assignmentController from '../controllers/assignmentController.js';
 const router = express.Router();
-const assignmentController = require('../controllers/assignmentController');
 
 // נתיב ליצירה
 router.post('/', assignmentController.createAssignment);
