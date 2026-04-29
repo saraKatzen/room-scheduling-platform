@@ -1,4 +1,5 @@
-const tempAssignmentSchema = new mongoose.Schema({
+import mongoose from 'mongoose';
+export  const tempAssignmentSchema = new mongoose.Schema({
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
   assignedTo: { type: String, required: true },
   date: { type: Date, required: true },
