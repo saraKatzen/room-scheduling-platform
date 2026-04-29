@@ -1,8 +1,7 @@
 import express from 'express';
+import * as cancellationController from '../controllers/cancellationController.js';
 const router = express.Router();
 
-// ייבוא הקונטרולר שיצרנו בשלב הקודם
-const cancellationController = require('../controllers/cancellationController');
 
 // 1. נתיב להוספת ביטול חד-פעמי
 // הכתובת המלאה תהיה: POST /api/cancellations
@@ -12,4 +11,4 @@ router.post('/', cancellationController.addCancellation);
 // הכתובת המלאה תהיה: DELETE /api/cancellations/:id
 router.delete('/:id', cancellationController.deleteCancellation);
 
-module.exports = router;
+export default router;

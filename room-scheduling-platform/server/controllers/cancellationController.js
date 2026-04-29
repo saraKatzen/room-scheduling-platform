@@ -1,7 +1,7 @@
 // ייבוא המודל שעדכנת בשלב הקודם
 import OneTimeCancellation from "../models/OneTimeCancellation.js";
 // פונקציה 1: הוספת ביטול חד פעמי
-exports.addCancellation = async (req, res) => {
+export const addCancellation = async (req, res) => {
     try {
         // יצירת אובייקט ביטול חדש מהנתונים שהגיעו מהלקוח (req.body)
         const newCancellation = new OneTimeCancellation(req.body);
@@ -18,7 +18,7 @@ exports.addCancellation = async (req, res) => {
 };
 
 // פונקציה 2: מחיקת ביטול חד פעמי
-exports.deleteCancellation = async (req, res) => {
+export const deleteCancellation = async (req, res) => {
     try {
         const { id } = req.params; // מקבלים את ה-ID מהכתובת (URL)
         

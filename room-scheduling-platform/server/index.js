@@ -6,6 +6,8 @@ import assignmentRoutes from './routes/assignmentRoutes.js';
 import cancellationRoutes from './routes/cancellationRoutes.js';
 import roomController from './controllers/roomController.js';
 import roomRoutes from './routes/roomRoutes.js';
+import oneTimeCancellationRoutes from './routes/oneTimeCancellationRoutes.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
