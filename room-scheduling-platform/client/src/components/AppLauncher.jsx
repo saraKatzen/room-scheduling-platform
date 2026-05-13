@@ -15,7 +15,7 @@ const AppLauncher = () => {
     },
     {
       id: 2,
-      title: "ניהול חדרים",
+      title: "ניהול חדרים",     
       desc: "עדכון נתוני אגפים ומקרנים",
       icon: "meeting_room",
       path: "/manage-rooms",
@@ -69,13 +69,13 @@ const AppLauncher = () => {
         <input type="text" placeholder="חיפוש כלי, שיבוץ, חדר..." />
       </div>
       <div className="launcher-grid-fixed">
-<<<<<<< HEAD
+
         {/* {tools.map((tool) => (
           <button key={tool.id} className="launcher-card-btn">
-=======
+
         {tools.map((tool) => (
           <button key={tool.id} className="launcher-card-btn" type="button" onClick={() => navigate(tool.path)}>
->>>>>>> origin/main
+
             <div className="card-icon">
               <span className="material-icons">{tool.icon}</span>
             </div>
