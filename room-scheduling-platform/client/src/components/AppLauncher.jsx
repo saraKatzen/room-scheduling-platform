@@ -12,14 +12,14 @@ const AppLauncher = () => {
       title: "שיבוץ חדש",
       desc: "חיפוש חדר פנוי לפי פרמטרים",
       icon: "event",
-      path: "/add-assignment", // הנתיב לטופס החדש שלך!
+      path: "/add-assignment",
     },
     {
       id: 2,
       title: "ניהול חדרים",
       desc: "עדכון נתוני אגפים ומקרנים",
       icon: "meeting_room",
-      path: "/manage-rooms", // הנתיב של הצוות
+      path: "/manage-rooms",
     },
     {
       id: 3,
@@ -49,7 +49,21 @@ const AppLauncher = () => {
       icon: "settings",
       path: "/settings" 
     },
+    {
+      id: 7,
+      title: "ניקוי מערכת",
+      desc: "מחיקת כל השיבוצים",
+      icon: "delete_forever",
+      action: "clear" // כפתור מיוחד שמפעיל פונקציה במקום ניווט
+    },
   ];
+
+  const handleClearAll = async () => {
+    if (window.confirm("למחוק את כל השיבוצים?")) {
+      const response = await fetch('http://localhost:3000/api/rooms/clear-all', { method: 'DELETE' });
+      if (response.ok) alert("נוקה בהצלחה");
+    }
+  };
 
   return (
     <div className="launcher-container">
@@ -66,7 +80,13 @@ const AppLauncher = () => {
           <button 
             key={tool.id} 
             className="launcher-card-btn"
-            onClick={() => navigate(tool.path)}
+            onClick={() => {
+              if (tool.action === "clear") {
+                handleClearAll();
+              } else {
+                navigate(tool.path);
+              }
+            }}
           >
             <div className="card-icon">
               <span className="material-icons">{tool.icon}</span>
