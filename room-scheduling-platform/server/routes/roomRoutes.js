@@ -27,4 +27,4 @@ router.post('/cancellations', roomController.addCancellation);
 router.delete('/cancellations/:id', roomController.deleteCancellation);
 
 // חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
-module.exports = router;
+export default router;
