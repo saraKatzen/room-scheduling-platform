@@ -41,7 +41,7 @@ const AppLauncher = () => {
       icon: "bar_chart",
       path: "/reports",
     },
-    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings", path: "/settings" },
+    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings" },
   ];
 
   return (
@@ -56,7 +56,7 @@ const AppLauncher = () => {
       </div>
       <div className="launcher-grid-fixed">
         {tools.map((tool) => (
-          <button key={tool.id} className="launcher-card-btn" type="button" onClick={() => navigate(tool.path)}>
+          <button key={tool.id} className="launcher-card-btn">
             <div className="card-icon">
               <span className="material-icons">{tool.icon}</span>
             </div>
