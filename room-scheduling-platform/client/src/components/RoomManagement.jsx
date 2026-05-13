@@ -41,13 +41,11 @@ const RoomManagement = () => {
     return (
       room.wing.toLowerCase().includes(query) ||
       room.floor.toString().toLowerCase().includes(query) ||
-      room.roomNumber.toString().toLowerCase().includes(query)
+      room.roomNumber.toString().toLowerCase().includes(query)||
+        (room.hasProjector ? 'יש מקרן' : 'אין מקרן').toLowerCase().includes(query)
+
     );
   });
-
-
-
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -188,6 +186,17 @@ const RoomManagement = () => {
                 value={formData.roomNumber}
                 onChange={handleChange}
                 placeholder="הכנס מספר חדר"
+              />
+            </div>
+            <div className="form-group" >
+              <label htmlFor="capacity"> כמות מקומות בחדר</label>
+              <input
+                id="capacity"
+                type="number"
+                name="capacity"
+                value={formData.capacity}
+                onChange={handleChange}
+                placeholder="הכנס כמות מקומות בחדר"
               />
             </div>
 
