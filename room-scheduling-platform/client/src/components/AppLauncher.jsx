@@ -15,7 +15,7 @@ const AppLauncher = () => {
     },
     {
       id: 2,
-      title: "ניהול חדרים",
+      title: "ניהול חדרים",     
       desc: "עדכון נתוני אגפים ומקרנים",
       icon: "meeting_room",
       path: "/manage-rooms",
@@ -41,9 +41,23 @@ const AppLauncher = () => {
       icon: "bar_chart",
       path: "/reports",
     },
-    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings" },
-  ];
 
+    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings" },
+    {
+      id: 7,
+      title: "ניקוי מערכת",
+      desc: "מחיקת כל השיבוצים",
+      icon: "delete_forever",
+      action: "clear"
+    },
+
+  ];
+  const handleClearAll = async () => {
+    if (window.confirm("למחוק את כל השיבוצים?")) {
+      const response = await fetch('http://localhost:3000/api/rooms/clear-all', { method: 'DELETE' });
+      if (response.ok) alert("נוקה בהצלחה");
+    }
+  };
   return (
     <div className="launcher-container">
       <header className="launcher-header">
@@ -55,8 +69,35 @@ const AppLauncher = () => {
         <input type="text" placeholder="חיפוש כלי, שיבוץ, חדר..." />
       </div>
       <div className="launcher-grid-fixed">
-        {tools.map((tool) => (
+
+        {/* {tools.map((tool) => (
           <button key={tool.id} className="launcher-card-btn">
+
+        {tools.map((tool) => (
+          <button key={tool.id} className="launcher-card-btn" type="button" onClick={() => navigate(tool.path)}>
+
+            <div className="card-icon">
+              <span className="material-icons">{tool.icon}</span>
+            </div>
+            <div className="card-content">
+              <h3>{tool.title}</h3>
+              <p>{tool.desc}</p>
+            </div>
+            <button
+              key={tool.id}
+              className="launcher-card-btn"
+              onClick={() => tool.action === "clear" ? handleClearAll() : null}
+            ></button>
+          </button>
+
+
+        ))} */}
+        {tools.map((tool) => (
+          <button
+            key={tool.id}
+            className="launcher-card-btn"
+            onClick={() => tool.action === "clear" ? handleClearAll() : null}
+          >
             <div className="card-icon">
               <span className="material-icons">{tool.icon}</span>
             </div>
