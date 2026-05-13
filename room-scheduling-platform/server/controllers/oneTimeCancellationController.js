@@ -1,7 +1,25 @@
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
+import Room from '../models/Room.js';
 // CRUD operations for OneTimeCancellation
 // Create, Read (all and by ID), Update, Delete.
+
 // כל הפונקציות האלו הן אסינכרוניות כי הן מתקשרות עם מסד הנתונים
+// פונקציה ליצירת ביטול חדש
+export const createCancellation = async (req, res) => {
+  try {
+    // בדיקה שהחדר קיים
+    const roomExists = await Room.findById(req.body.roomId);
+    if (!roomExists) {
+        return res.status(404).json({ error: "החדר לא נמצא" });
+    }
+
+    const cancellation = new OneTimeCancellation(req.body);
+    await cancellation.save();
+    res.status(201).json(cancellation);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 // פונקציה לקבלת כל הביטולים
 export const getAllCancellations = async (req, res) => {
   try {
@@ -15,16 +33,7 @@ export const getAllCancellations = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-// פונקציה ליצירת ביטול חדש
-export const createCancellation = async (req, res) => {
-  try {
-    const cancellation = new OneTimeCancellation(req.body);
-    await cancellation.save();
-    res.status(201).json(cancellation);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
+
 // פונקציה לקבלת ביטול לפי מזהה (ID)
 export const getCancellationById = async (req, res) => {
   try {

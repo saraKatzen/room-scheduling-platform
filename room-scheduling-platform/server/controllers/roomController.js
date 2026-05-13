@@ -2,6 +2,8 @@ import Room from '../models/Room.js';
 import TempAssignment from '../models/TempAssignment.js';
 import PermanentAssignment from '../models/PermanentAssignment.js';
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
+import * as cancellationCRUD from './oneTimeCancellationController.js';
+
 // 1. נתיב לקבלת כל החדרים (בשביל ה-React)
 export const getRoom = async (req, res) => {
     try {
@@ -63,37 +65,17 @@ export const deleteRoom = async (req, res) => {
     }
 };
 
-// פונקציה 1: הוספת ביטול חד פעמי לחדר ספציפי
-export const addCancellation = async (req, res) => {
-    try {
-        // וודאנו שהחדר קיים
-        const roomExists = await Room.findById(req.body.roomId);
-        if (!roomExists) {
-            return res.status(404).json({ message: "שגיאה: החדר שצוין לא נמצא במערכת" });
-        }
 
-        const newCancellation = new OneTimeCancellation(req.body);
-        const savedCancellation = await newCancellation.save();
-        res.status(201).json(savedCancellation);
-    } catch (error) {
-        res.status(400).json({ message: "שגיאה ביצירת הביטול", error: error.message });
-    }
+// פונקציה 1: הוספת ביטול חד פעמי 
+export const addCancellation = async (req, res) => {
+    // במקום לכתוב כאן Room.findById, אנחנו פשוט קוראים לפונקציה שכבר עושה את זה
+    return cancellationCRUD.createCancellation(req, res);
 };
 
-// פונקציה 2: מחיקת ביטול חד פעמי
+// פונקציה 2: מחיקת ביטול חד פעמי 
 export const deleteCancellation = async (req, res) => {
-    try {
-        const { id } = req.params; 
-        const deletedCancellation = await OneTimeCancellation.findByIdAndDelete(id);
-        
-        if (!deletedCancellation) {
-            return res.status(404).json({ message: "הביטול לא נמצא במערכת" });
-        }
-        
-        res.status(200).json({ message: "הביטול נמחק בהצלחה" });
-    } catch (error) {
-        res.status(500).json({ message: "שגיאה בתהליך המחיקה", error: error.message });
-    }
+    // קוראים למחיקה הקיימת
+    return cancellationCRUD.deleteCancellation(req, res);
 };
 // פונקציית עזר לבדיקת חפיפה בין זמנים (כדי למנוע כפל קוד בעתיד, נוכל להוציא אותה לקובץ Utils)
 const isTimeOverlapping = (start1, end1, start2, end2) => {
@@ -103,6 +85,8 @@ const isTimeOverlapping = (start1, end1, start2, end2) => {
 export const addTempAssignment = async (req, res) => {
     try {
         const { roomId, date, startTime, endTime, assignedTo } = req.body;
+        const room = await Room.findById(roomId);
+        if (!room) return res.status(404).json({ message: "החדר לא נמצא" });
         const searchDate = new Date(date);
         const dayOfWeek = searchDate.toLocaleDateString('en-US', { weekday: 'long' }); // מקבל את היום בשבוע (למשל 'Monday')
 
