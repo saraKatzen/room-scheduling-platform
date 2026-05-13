@@ -4,8 +4,6 @@ import PermanentAssignment from '../models/PermanentAssignment.js';
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
 
 import Assignment from '../models/Assignment.js';
-import TempAssignment from '../models/TempAssignment.js';
-import PermanentAssignment from '../models/PermanentAssignment.js';
 
 // פונקציה למחיקת כל השיבוצים מכל הסוגים
 export const clearAllAssignments = async (req, res) => {
@@ -184,5 +182,102 @@ export const deleteTempAssignment = async (req, res) => {
         res.status(200).json({ message: "השיבוץ הזמני נמחק בהצלחה" });
     } catch (error) {
         res.status(500).json({ message: "שגיאה במחיקת השיבוץ", error: error.message });
+    }
+};
+
+// פונקציה לקבלת מערכת שבועית לחדר
+export const getRoomWeeklySchedule = async (req, res) => {
+    try {
+        const { id: roomId } = req.params;
+
+        // קבל שיבוצים קבועים לכל השבוע
+        const permanentAssignments = await PermanentAssignment.find({
+            roomId,
+            isActive: true
+        });
+
+        // קבץ לפי יום
+        const weeklySchedule = {};
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        days.forEach(day => {
+            weeklySchedule[day] = permanentAssignments.filter(perm => perm.dayOfWeek === day);
+        });
+
+        res.json(weeklySchedule);
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה בקבלת המערכת השבועית", error: error.message });
+    }
+};
+
+// פונקציה לקבלת מערכת לחדר לפי תאריך
+export const getRoomSchedule = async (req, res) => {
+    try {
+        const { id: roomId } = req.params;
+        const { date } = req.query;
+
+        if (!date) {
+            return res.status(400).json({ message: "נדרש תאריך" });
+        }
+
+        const searchDate = new Date(date);
+        const dayOfWeek = searchDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+        // קבל שיבוצים קבועים ליום הזה
+        const permanentAssignments = await PermanentAssignment.find({
+            roomId,
+            dayOfWeek,
+            isActive: true
+        });
+
+        // קבל ביטולים חד פעמיים לתאריך הזה
+        const cancellations = await OneTimeCancellation.find({
+            roomId,
+            cancellationDate: searchDate
+        });
+
+        // קבל שיבוצים זמניים לתאריך הזה
+        const tempAssignments = await TempAssignment.find({
+            roomId,
+            date: searchDate
+        });
+
+        // בנה את המערכת
+        const schedule = [];
+
+        // הוסף שיבוצים קבועים, מלבד אלו שבוטלו
+        for (const perm of permanentAssignments) {
+            const isCancelled = cancellations.some(cancel => cancel.permanentAssignmentId.toString() === perm._id.toString());
+            if (!isCancelled) {
+                schedule.push({
+                    id: perm._id,
+                    startTime: perm.startTime,
+                    endTime: perm.endTime,
+                    assignmentName: perm.assignmentName,
+                    assignedTo: perm.assignedUser,
+                    type: 'permanent',
+                    isTemp: false
+                });
+            }
+        }
+
+        // הוסף שיבוצים זמניים
+        for (const temp of tempAssignments) {
+            schedule.push({
+                id: temp._id,
+                startTime: temp.startTime,
+                endTime: temp.endTime,
+                assignedTo: temp.assignedTo,
+                type: 'temp',
+                isTemp: true
+            });
+        }
+
+        // מיין לפי שעת התחלה
+        schedule.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+        res.json(schedule);
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה בקבלת המערכת", error: error.message });
     }
 };

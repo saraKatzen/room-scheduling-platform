@@ -38,6 +38,13 @@ router.post('/temp-assignments', roomController.addTempAssignment);
 
 // נתיב למחיקת שיבוץ זמני (DELETE) לפי ה-ID של השיבוץ
 router.delete('/temp-assignments/:id', roomController.deleteTempAssignment);
+
+// נתיב לקבלת מערכת שבועית לחדר
+router.get('/:id/weekly-schedule', roomController.getRoomWeeklySchedule);
+
+// נתיב לקבלת מערכת לחדר לפי תאריך
+router.get('/:id/schedule', roomController.getRoomSchedule);
+
 // חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
 
 export default router;
