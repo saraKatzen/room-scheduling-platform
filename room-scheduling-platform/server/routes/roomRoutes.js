@@ -1,39 +1,28 @@
 import express from 'express';
-// מייבאים את הקונטרולר המאוחד שבו נמצאות הפונקציות של כולכן
+// מייבאים את הקונטרולר המאוחד
 import * as roomController from '../controllers/roomController.js';
 
 const router = express.Router();
-// 1. נתיב לקבלת כל החדרים
-// הכתובת המלאה תהיה /api/rooms/
+
+// --- ניהול חדרים כללי ---
 router.get('/', roomController.getRoom);
-
-// 2. נתיב להוספת חדר חדש
 router.post('/', roomController.postRoom);
-
-// 3. קבלת פרטי חדר בודד לפי ID
-// הכתובת המלאה תהיה /api/rooms/:id
 router.get('/:id', roomController.getRoomById);
-
-// 4. עדכון חדר
 router.put('/:id', roomController.putRoom);
-
-// 5. מחיקת חדר
 router.delete('/:id', roomController.deleteRoom);
 
-// הוספת ביטול חד-פעמי: POST /api/rooms/cancellations
+// --- ביטולים חד-פעמיים ---
 router.post('/cancellations', roomController.addCancellation);
-
-// מחיקת ביטול חד-פעמי: DELETE /api/rooms/cancellations/:id
 router.delete('/cancellations/:id', roomController.deleteCancellation);
+
 // --- שיבוצים קבועים (המשימה שלך) ---
-// הוספת שיבוץ קבוע לחדר: POST /api/rooms/assignments
-// (שימי לב שהוספתי 'assignments' כדי להבדיל מיצירת חדר)
 router.post('/assignments', roomController.createPermanentAssignment);
-
-// מחיקת שיבוץ קבוע: DELETE /api/rooms/assignments/:id
 router.delete('/assignments/:id', roomController.deletePermanentAssignment);
-// חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
 
+// --- שיבוצים זמניים וניהול שוטף (המשימות של הצוות) ---
+router.post('/temp-assignments', roomController.addTempAssignment);
+router.delete('/temp-assignments/:id', roomController.deleteTempAssignment);
+router.delete('/clear-all', roomController.clearAllAssignments);
+
+// ייצוא הראוטר
 export default router;
-
-

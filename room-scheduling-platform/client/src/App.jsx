@@ -3,18 +3,22 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import RoomList from './components/RoomList'
 import AppLauncher from './components/AppLauncher'
-import AddAssignment from './components/AddAssignment';
+import AddAssignment from './components/AddAssignment' // הדף שלך
+import RoomManagement from './components/RoomManagement' // הדף שהן הוסיפו
 
 function App() {
   return (
     <BrowserRouter>
       <div className="container">
         <Routes>
-          {/* שינוי כאן: ה-AppLauncher מופיע רק בנתיב הראשי */}
+          {/* דף הבית */}
           <Route path="/" element={<AppLauncher />} />
           
-          {/* שאר הנתיבים יחליפו את ה-AppLauncher כשתעברי אליהם */}
+          {/* הדפים של הצוות */}
           <Route path="/rooms" element={<RoomList />} />
+          <Route path="/manage-rooms" element={<RoomManagement />} />
+          
+          {/* הדף החדש שלך! */}
           <Route path="/add-assignment" element={<AddAssignment />} />
         </Routes>
       </div>
