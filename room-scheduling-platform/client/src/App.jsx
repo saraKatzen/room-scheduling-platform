@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom' // ייבוא ה
 import './App.css'
 import RoomList from './components/RoomList'
 import AppLauncher from './components/AppLauncher'
+import RoomSchedule from './components/RoomSchedule'
 
 // אם יש לך קומפוננטת Home, ייבאי אותה. 
 // אם אין לך עדיין, אפשר ליצור אחת זמנית או להשתמש ב-RoomList כברירת מחדל.
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<RoomList />} />
+          <Route path="/schedule" element={<RoomSchedule />} />
           {/* כאן תוכלו להוסיף בעתיד נתיבים כמו /add-room או /schedule */}
         </Routes>
       </div>

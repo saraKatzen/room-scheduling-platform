@@ -6,15 +6,29 @@ const RoomSchedule = () => {
   const [selectedRoom, setSelectedRoom] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [schedule, setSchedule] = useState([]);
+const [loading, setLoading] = useState(true); // ניהול מצב טעינה
 
-  // טעינת רשימת החדרים בטעינה הראשונה
-  useEffect(() => {
-    const fetchRooms = async () => {
-      const res = await axios.get('/api/rooms');
-      setRooms(res.data);
+useEffect(() => {
+    // פונקציה פנימית לביצוע הקריאה
+    const fetchRoomsData = async () => {
+        try {
+            setLoading(true);
+            // שימי לב: ודאי שהפורט (3000) תואם למה שהגדרת בשרת ה-Node.js שלך
+            const response = await fetch('http://localhost:3000/api/rooms');
+            const data = await response.json();
+            
+            // הגנה: מוודאים שקיבלנו מערך לפני שמעדכנים
+            setRooms(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error("שגיאה במשיכת חדרים:", err);
+            setRooms([]); // במקרה של שגיאה נשאיר מערך ריק למניעת קריסה
+        } finally {
+            setLoading(false); // הפסקת מצב טעינה בכל מקרה
+        }
     };
-    fetchRooms();
-  }, []);
+
+    fetchRoomsData();
+}, []);
 
   // בכל פעם שחדר או תאריך משתנים - נמשוך את המערכת
   useEffect(() => {
