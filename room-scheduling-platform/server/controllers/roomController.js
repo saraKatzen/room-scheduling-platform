@@ -1,5 +1,27 @@
 import Room from '../models/Room.js';
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
+
+import Assignment from '../models/Assignment.js';
+import TempAssignment from '../models/TempAssignment.js';
+import PermanentAssignment from '../models/PermanentAssignment.js';
+
+// פונקציה למחיקת כל השיבוצים מכל הסוגים
+export const clearAllAssignments = async (req, res) => {
+    try {
+        // מחיקה מכל הקולקשנים במקביל
+        await Promise.all([
+            Assignment.deleteMany({}),
+            TempAssignment.deleteMany({}),
+            PermanentAssignment.deleteMany({}),
+            OneTimeCancellation.deleteMany({})
+        ]);
+
+        res.status(200).json({ message: "כל השיבוצים והביטולים נמחקו בהצלחה!" });
+    } catch (err) {
+        res.status(500).json({ message: "שגיאה בניקוי הנתונים", error: err.message });
+    }
+};
+
 // 1. נתיב לקבלת כל החדרים (בשביל ה-React)
 export const getRoom = async (req, res) => {
     try {

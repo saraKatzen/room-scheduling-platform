@@ -26,5 +26,9 @@ router.post('/cancellations', roomController.addCancellation);
 // מחיקת ביטול חד-פעמי: DELETE /api/rooms/cancellations/:id
 router.delete('/cancellations/:id', roomController.deleteCancellation);
 
+// נתיב למחיקת כל השיבוצים (נשתמש ב-DELETE)
+router.delete('/clear-all', roomController.clearAllAssignments);
+
 // חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
-module.exports = router;
+// module.exports = router;
+export default router;
