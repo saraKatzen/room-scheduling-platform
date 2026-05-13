@@ -1,40 +1,47 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import "../styles/style.css";
 import "../styles/AppLauncher.css";
 
 const AppLauncher = () => {
+  const navigate = useNavigate();
   const tools = [
     {
       id: 1,
       title: "שיבוץ חדש",
       desc: "חיפוש חדר פנוי לפי פרמטרים",
       icon: "event",
+      path: "/rooms",
     },
     {
       id: 2,
       title: "ניהול חדרים",
       desc: "עדכון נתוני אגפים ומקרנים",
       icon: "meeting_room",
+      path: "/manage-rooms",
     },
     {
       id: 3,
       title: "לוח זמנים",
       desc: "צפייה במערכת השעות הקבועה",
       icon: "calendar_today",
+      path: "/schedule",
     },
     {
       id: 4,
       title: "שיבוצים זמניים",
       desc: "ניהול חופשות ושחרור חדרים",
       icon: "schedule",
+      path: "/temporary",
     },
     {
       id: 5,
       title: 'דו"חות',
       desc: "ניתוח נתוני שימוש בחדרים",
       icon: "bar_chart",
+      path: "/reports",
     },
-    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings" },
+    { id: 6, title: "הגדרות", desc: "ניהול הרשאות ומשתמשים", icon: "settings", path: "/settings" },
   ];
 
   return (
@@ -49,7 +56,7 @@ const AppLauncher = () => {
       </div>
       <div className="launcher-grid-fixed">
         {tools.map((tool) => (
-          <button key={tool.id} className="launcher-card-btn">
+          <button key={tool.id} className="launcher-card-btn" type="button" onClick={() => navigate(tool.path)}>
             <div className="card-icon">
               <span className="material-icons">{tool.icon}</span>
             </div>
