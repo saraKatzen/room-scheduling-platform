@@ -26,9 +26,18 @@ router.post('/cancellations', roomController.addCancellation);
 // מחיקת ביטול חד-פעמי: DELETE /api/rooms/cancellations/:id
 router.delete('/cancellations/:id', roomController.deleteCancellation);
 
+
 // נתיב למחיקת כל השיבוצים (נשתמש ב-DELETE)
 router.delete('/clear-all', roomController.clearAllAssignments);
 
 // חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
 // module.exports = router;
+
+// נתיב להוספת שיבוץ זמני (POST)
+router.post('/temp-assignments', roomController.addTempAssignment);
+
+// נתיב למחיקת שיבוץ זמני (DELETE) לפי ה-ID של השיבוץ
+router.delete('/temp-assignments/:id', roomController.deleteTempAssignment);
+// חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
+
 export default router;

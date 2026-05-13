@@ -1,4 +1,6 @@
 import Room from '../models/Room.js';
+import TempAssignment from '../models/TempAssignment.js';
+import PermanentAssignment from '../models/PermanentAssignment.js';
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
 
 import Assignment from '../models/Assignment.js';
@@ -113,5 +115,74 @@ export const deleteCancellation = async (req, res) => {
         res.status(200).json({ message: "הביטול נמחק בהצלחה" });
     } catch (error) {
         res.status(500).json({ message: "שגיאה בתהליך המחיקה", error: error.message });
+    }
+};
+// פונקציית עזר לבדיקת חפיפה בין זמנים (כדי למנוע כפל קוד בעתיד, נוכל להוציא אותה לקובץ Utils)
+const isTimeOverlapping = (start1, end1, start2, end2) => {
+    return start1 < end2 && start2 < end1;
+};
+// פונקציה 3: הוספת שיבוץ זמני עם בדיקות התנגשות מול שיבוצים קבועים וביטולים חד פעמיים
+export const addTempAssignment = async (req, res) => {
+    try {
+        const { roomId, date, startTime, endTime, assignedTo } = req.body;
+        const searchDate = new Date(date);
+        const dayOfWeek = searchDate.toLocaleDateString('en-US', { weekday: 'long' }); // מקבל את היום בשבוע (למשל 'Monday')
+
+        // 1. בדיקה מול שיבוצים קבועים
+        const permanentConflicts = await PermanentAssignment.find({ 
+            roomId, 
+            dayOfWeek,
+            isActive: true 
+        });
+
+        for (let perm of permanentConflicts) {
+            if (isTimeOverlapping(perm.startTime, perm.endTime, startTime, endTime)) {
+                // בדיקה אם השיבוץ הקבוע הזה בוטל ספציפית לתאריך הזה
+                const isCancelled = await OneTimeCancellation.findOne({
+                    permanentAssignmentId: perm._id,
+                    cancellationDate: searchDate
+                });
+
+                if (!isCancelled) {
+                    return res.status(400).json({ message: "קיימת התנגשות עם שיבוץ קבוע בחדר זה" });
+                }
+            }
+        }
+
+        // 2. בדיקה מול שיבוצים זמניים קיימים
+        const existingTempAssignments = await TempAssignment.find({ roomId, date: searchDate });
+        const hasTempConflict = existingTempAssignments.some(assign => 
+            isTimeOverlapping(assign.startTime, assign.endTime, startTime, endTime)
+        );
+
+        if (hasTempConflict) {
+            return res.status(400).json({ message: "החדר כבר תפוס בשיבוץ זמני אחר בשעות אלו" });
+        }
+
+        // 3. אם עברנו את כל הבדיקות - יוצרים את השיבוץ (שימוש ב-CRUD הבסיסי של המודל)
+        const newTempAssignment = new TempAssignment(req.body);
+        await newTempAssignment.save();
+        
+        res.status(201).json({ message: "השיבוץ הזמני נקלט בהצלחה", data: newTempAssignment });
+
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה בביצוע השיבוץ", error: error.message });
+    }
+};
+// פונקציה 4: מחיקת שיבוץ זמני ספציפי לפי מזהה (ID)
+export const deleteTempAssignment = async (req, res) => {
+    try {
+        const { id } = req.params; // המזהה של השיבוץ הספציפי שאנחנו רוצים למחוק
+
+        // שימוש במודל TempAssignment לביצוע המחיקה
+        const deletedAssignment = await TempAssignment.findByIdAndDelete(id);
+
+        if (!deletedAssignment) {
+            return res.status(404).json({ message: "השיבוץ לא נמצא במערכת" });
+        }
+
+        res.status(200).json({ message: "השיבוץ הזמני נמחק בהצלחה" });
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה במחיקת השיבוץ", error: error.message });
     }
 };
