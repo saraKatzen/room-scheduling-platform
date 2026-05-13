@@ -1,5 +1,7 @@
 import Room from '../models/Room.js';
 import OneTimeCancellation from '../models/OneTimeCancellation.js';
+import PermanentAssignment from '../models/PermanentAssignment.js';
+
 // 1. נתיב לקבלת כל החדרים (בשביל ה-React)
 export const getRoom = async (req, res) => {
     try {
@@ -13,8 +15,8 @@ export const getRoom = async (req, res) => {
 // 2 נתיב להוספת חדר חדש
 export const postRoom = async (req, res) => {
     try {
-        const newRoom = new Room(req.body); 
-        await newRoom.save(); 
+        const newRoom = new Room(req.body);
+        await newRoom.save();
         res.status(201).json(newRoom);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -22,7 +24,6 @@ export const postRoom = async (req, res) => {
 };
 
 // עדכון פרטי חדר קיים לפי מזהה (ID)
-
 export const putRoom = async (req, res) => {
     try {
         const { id } = req.params; // מקבל את ה-ID מהכתובת
@@ -40,6 +41,7 @@ export const putRoom = async (req, res) => {
         res.status(400).json({ message: "שגיאה בעדכון החדר", error: err.message });
     }
 };
+
 // משימת שרת: CRUD - מחיקת חדר
 export const deleteRoom = async (req, res) => {
     try {
@@ -51,7 +53,7 @@ export const deleteRoom = async (req, res) => {
 };
 
 // משימת שרת: CRUD - קבלת פרטי חדר בודד
-    export const getRoomById = async (req, res) => {
+export const getRoomById = async (req, res) => {
     try {
         const room = await Room.findById(req.params.id);
         if (!room) return res.status(404).json({ message: "החדר לא נמצא" });
@@ -81,15 +83,77 @@ export const addCancellation = async (req, res) => {
 // פונקציה 2: מחיקת ביטול חד פעמי
 export const deleteCancellation = async (req, res) => {
     try {
-        const { id } = req.params; 
+        const { id } = req.params;
         const deletedCancellation = await OneTimeCancellation.findByIdAndDelete(id);
-        
+
         if (!deletedCancellation) {
             return res.status(404).json({ message: "הביטול לא נמצא במערכת" });
         }
-        
+
         res.status(200).json({ message: "הביטול נמחק בהצלחה" });
     } catch (error) {
         res.status(500).json({ message: "שגיאה בתהליך המחיקה", error: error.message });
+    }
+};
+
+export const createPermanentAssignment = async (req, res) => {
+    try {
+        const { roomId, dayOfWeek, startTime, endTime, assignmentName, assignedUser } = req.body;
+
+        // 1. בדיקה בסיסית - האם זמן הסיום אחרי זמן ההתחלה?
+        if (startTime >= endTime) {
+            return res.status(400).json({ message: "שעת הסיום חייבת להיות אחרי שעת ההתחלה" });
+        }
+
+        // 2. חיפוש התנגשויות (החלק המורכב)
+        const overlappingAssignment = await PermanentAssignment.findOne({
+            roomId: roomId,
+            dayOfWeek: dayOfWeek,
+            $or: [
+                {
+                    // מקרה 1: השיבוץ החדש מתחיל בתוך זמן של שיבוץ קיים
+                    startTime: { $lt: endTime },
+                    endTime: { $gt: startTime }
+                }
+            ]
+        });
+
+        if (overlappingAssignment) {
+            return res.status(400).json({
+                message: `החדר תפוס ביום זה בין ${overlappingAssignment.startTime} ל-${overlappingAssignment.endTime}`
+            });
+        }
+
+        // 3. אם הכל בסדר - שומרים
+        const newAssignment = new PermanentAssignment({
+            assignmentName,
+            roomId,
+            assignedUser,
+            dayOfWeek,
+            startTime,
+            endTime
+        });
+
+        const savedAssignment = await newAssignment.save();
+        res.status(201).json(savedAssignment);
+
+    } catch (error) {
+        res.status(500).json({ message: "שגיאת שרת: " + error.message });
+    }
+};
+
+// פונקציית מחיקה (לפי הדרישה שלך)
+export const deletePermanentAssignment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await PermanentAssignment.findByIdAndDelete(id);
+
+        if (!deleted) {
+            return res.status(404).json({ message: "השיבוץ לא נמצא" });
+        }
+
+        res.status(200).json({ message: "השיבוץ נמחק בהצלחה" });
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה במחיקה: " + error.message });
     }
 };

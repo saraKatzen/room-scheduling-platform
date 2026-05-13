@@ -25,6 +25,15 @@ router.post('/cancellations', roomController.addCancellation);
 
 // מחיקת ביטול חד-פעמי: DELETE /api/rooms/cancellations/:id
 router.delete('/cancellations/:id', roomController.deleteCancellation);
+// --- שיבוצים קבועים (המשימה שלך) ---
+// הוספת שיבוץ קבוע לחדר: POST /api/rooms/assignments
+// (שימי לב שהוספתי 'assignments' כדי להבדיל מיצירת חדר)
+router.post('/assignments', roomController.createPermanentAssignment);
 
+// מחיקת שיבוץ קבוע: DELETE /api/rooms/assignments/:id
+router.delete('/assignments/:id', roomController.deletePermanentAssignment);
 // חשוב מאוד: ייצוא הראוטר כדי ש-index.js יוכל להשתמש בו
+
 export default router;
+
+
