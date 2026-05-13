@@ -130,3 +130,13 @@
     grid-template-columns: 1fr;
   }
 }
+/* כפתור ניקוי מערכת - כפתור מספר 7 */
+.launcher-card-btn:nth-child(7) .card-icon {
+  background: #fff1f2; /* רקע אדום בהיר מאוד */
+  color: #be123c;      /* אייקון אדום כהה */
+}
+
+/* אפקט Hover ספציפי למחיקה (אופציונלי - הופך את הגבול לאדום כשמרחפים) */
+.launcher-card-btn:nth-child(7):hover {
+  border-color: #fecdd3;
+}
